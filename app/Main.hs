@@ -25,13 +25,12 @@ toLowerString s = [toLower c | c <- s]
 getIndex :: Eq a => [a] -> a -> Int
 getIndex a e = [i | (x, i) <- zip a [0..length a], x == e]!!0
 
-{-
-getIndexRec a e s 
-    getIndexRec [] _ _ = error "empty list"
-    if s >= length a then error "element not in list"
-    if a!!s == e then s
-    getIndexRec (tail a) e (s + 1)
--}
+
+getIndexRec :: (Eq a, Integral b) => [a] -> a -> b -> b
+getIndexRec a e i = if (head a) == e then i else getIndexRec (tail a) e (i+1)
+
 
 main :: IO ()
-main = printf (toLowerString  "KAPPA")
+l :: [Char]
+l = "Hej"
+main = printf "2 + 3 = %d" ((getIndexRec "Hej" 'e' 0)::Int)

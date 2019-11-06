@@ -29,8 +29,22 @@ getIndex a e = [i | (x, i) <- zip a [0..length a], x == e]!!0
 getIndexRec :: (Eq a, Integral b) => [a] -> a -> b -> b
 getIndexRec a e i = if (head a) == e then i else getIndexRec (tail a) e (i+1)
 
+getIndexRecWithGuards :: (Eq a, Integral b) => [a] -> a -> b -> b
+getIndexRecWithGuards (x:xs) e i
+    | x == e = i
+    | otherwise = getIndexRecWithGuards xs e (i+1)
+
+
+volumeHalfCircleToppedRect :: (RealFloat a) => a -> a -> a
+volumeHalfCircleToppedRect w h d = areaHalfCircleToppedRect*d
+    where areaHalfCircleToppedRect = 
+        let rectArea = w*(h-w/2)
+            halfCircleArea = pi*(w/2)^2/2
+        in rectArea + halfCircleArea    
+    
+
 
 main :: IO ()
 l :: [Char]
 l = "Hej"
-main = printf "2 + 3 = %d" ((getIndexRec "Hej" 'e' 0)::Int)
+main = printf "Area: %f" ((areaHalfCircleToppedRect 5 15) :: Float)
